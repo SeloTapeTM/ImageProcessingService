@@ -94,11 +94,33 @@ class ImageProcessingBot(Bot):
                     self.process_image_contur(msg)
                 if "salt n pepper" in caption.lower() or "salt and pepper" in caption.lower():
                     self.process_image_salt_n_pepper(msg)
+                if "segment" in caption.lower():
+                    self.process_image_segment(msg)
             else:
                 logger.info("Received photo without a caption.")
         elif "text" in msg:
             super().handle_message(msg)  # Call the parent class method to handle text messages
 
+    def process_image_segment(self, msg):
+        self.processing_completed = False
+
+        # Download the two photos sent by the user
+        image_path = self.download_user_photo(msg)
+
+        # Create two different Img objects from the downloaded images
+        image = Img(image_path)
+
+        # Process the image using your custom methods (e.g., apply filter)
+        image.segment()  # rotate the image
+
+        # Save the processed image to the specified folder
+        processed_image_path = image.save_img()
+
+        if processed_image_path is not None:
+            # Send the processed image back to the user
+            self.send_photo(msg['chat']['id'], processed_image_path)
+
+        self.processing_completed = True
     def process_image_blur(self, msg):
         self.processing_completed = False
 

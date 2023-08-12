@@ -75,7 +75,16 @@ class Img:
 
     def segment(self):
         # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        for row_num, row_data in enumerate(self.data):
+            res = []
+            for i in range(0, len(row_data)):
+                pixel = row_data[i]
+                if pixel > 100:
+                    pixel = 255
+                else:
+                    pixel = 0
+                res.append(pixel)
+            self.data[row_num] = res
 
 
 if __name__ == "__main__":
