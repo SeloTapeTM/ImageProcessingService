@@ -76,3 +76,9 @@ class Img:
     def segment(self):
         # TODO remove the `raise` below, and write your implementation
         raise NotImplementedError()
+
+
+if __name__ == "__main__":
+    my_img = Img('/home/setatm/GitExc/ImageProcessingService/polybot/test/beatles.jpeg')
+    my_img.salt_n_pepper()
+    my_img.save_img()
