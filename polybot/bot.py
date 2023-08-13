@@ -51,13 +51,14 @@ class Bot:
 
         return file_info.file_path
 
-    def send_photo(self, chat_id, img_path):
+    def send_photo(self, chat_id, img_path, caption=None):
         if not os.path.exists(img_path):
             raise RuntimeError("Image path doesn't exist")
 
         self.telegram_bot_client.send_photo(
             chat_id,
-            InputFile(img_path)
+            InputFile(img_path),
+            caption
         )
 
     def handle_message(self, msg):
@@ -78,6 +79,7 @@ class ImageProcessingBot(Bot):
     def __init__(self, token, telegram_chat_url):
         super().__init__(token, telegram_chat_url)
         self.processing_completed = True
+        self.enjoy_msg = 'Enjoy!'
 
     def handle_message(self, msg):
         if not self.processing_completed:
@@ -158,7 +160,8 @@ class ImageProcessingBot(Bot):
 
         if processed_image_path is not None:
             # Send the processed image back to the user
-            self.send_photo(msg['chat']['id'], processed_image_path)
+            self.send_text(msg['chat']['id'], text=f'Completed!\nHere\'s the result:')
+            self.send_photo(msg['chat']['id'], processed_image_path, caption=self.enjoy_msg)
 
         self.processing_completed = True
 
@@ -180,7 +183,8 @@ class ImageProcessingBot(Bot):
 
         if processed_image_path is not None:
             # Send the processed image back to the user
-            self.send_photo(msg['chat']['id'], processed_image_path)
+            self.send_text(msg['chat']['id'], text=f'Completed!\nHere\'s the result:')
+            self.send_photo(msg['chat']['id'], processed_image_path, caption=self.enjoy_msg)
 
         self.processing_completed = True
 
@@ -202,7 +206,8 @@ class ImageProcessingBot(Bot):
 
         if processed_image_path is not None:
             # Send the processed image back to the user
-            self.send_photo(msg['chat']['id'], processed_image_path)
+            self.send_text(msg['chat']['id'], text=f'Completed!\nHere\'s the result:')
+            self.send_photo(msg['chat']['id'], processed_image_path, caption=self.enjoy_msg)
 
         self.processing_completed = True
 
@@ -224,6 +229,7 @@ class ImageProcessingBot(Bot):
 
         if processed_image_path is not None:
             # Send the processed image back to the user
-            self.send_photo(msg['chat']['id'], processed_image_path)
+            self.send_text(msg['chat']['id'], text=f'Completed!\nHere\'s the result:')
+            self.send_photo(msg['chat']['id'], processed_image_path, caption=self.enjoy_msg)
 
         self.processing_completed = True
