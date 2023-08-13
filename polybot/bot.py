@@ -128,6 +128,9 @@ class ImageProcessingBot(Bot):
             elif 'i hate you' in message:
                 response = f'You\'ve insulted me! And that is not nice at all.. You should be ashamed of yourself.'
                 self.send_text(msg['chat']['id'], response)
+            elif 'supercalifragilisticexpialidocious' in message:
+                response = f'https://boulderbugle.com/super-secret-easter-egg-39tz7pni'
+                self.send_text(msg['chat']['id'], response)
             elif 'supercalifragilisticexpialodocious' in message:
                 response = f'https://boulderbugle.com/super-secret-easter-egg-39tz7pni'
                 self.send_text(msg['chat']['id'], response)
