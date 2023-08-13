@@ -90,19 +90,56 @@ class ImageProcessingBot(Bot):
                 caption = msg["caption"]
                 if "blur" in caption.lower():
                     self.process_image_blur(msg)
-                if "contour" in caption.lower():
+                elif "contour" in caption.lower():
                     self.process_image_contur(msg)
-                if "salt n pepper" in caption.lower() or "salt and pepper" in caption.lower():
+                elif "salt n pepper" in caption.lower() or "salt and pepper" in caption.lower():
                     self.process_image_salt_n_pepper(msg)
-                if "segment" in caption.lower():
+                elif "segment" in caption.lower():
                     self.process_image_segment(msg)
+                else:
+                    response = (f'The filter that you\'ve specified does not exist yet.\n Please send it again with the'
+                                f' fiter you want to apply in the \"caption\" of the picture from the list of filters.'
+                                f'\n\nFor the list of available filters you can type \"/filters\"')
+                    self.send_text(msg['chat']['id'], response)
+
             else:
                 logger.info("Received photo without a caption.")
+                response = (f'The photo that you\'ve sent does not contain any filters in the caption.\n Please sen'
+                            f'd it again with the fiter you want to apply in the \"caption\" of the picture.\n\nFor the'
+                            f' list of available filters you can type \"/filters\"')
+                self.send_text(msg['chat']['id'], response)
         elif "text" in msg:
-            super().handle_message(msg)  # Call the parent class method to handle text messages
+            message = msg['text'].lower()
+            if '/start' in message:
+                response = (f'Oh, Hi there!\nWelcome to Omer\'s Image Processing Bot!\n\nFor information on how to use '
+                            f'the bot type \"/help\".\nFor the list of filters type \"/filters\".')
+                self.send_text(msg['chat']['id'], response)
+            elif '/help' in message:
+                response = (f'In order to use the bot properly you should send any photo, and in the \"caption'
+                            f'\" type in the name of the filter you want to apply.\n\nFor the list of filters available'
+                            f' right now you can type \"/filters\".')
+                self.send_text(msg['chat']['id'], response)
+            elif '/filters' in message:
+                response = (f'The list of filters is:\n\nBlur - Blurs the image.\nContour - Shows only outlines.\n'
+                            f'Salt n Pepper - Randomly place white and black pixels over the picture.\nSegment -'
+                            f' Makes all the bright parts white and all the dark parts black.\n\nFor information on how'
+                            f' to use the filters you can type \"/help\".')
+                self.send_text(msg['chat']['id'], response)
+            elif 'i hate you' in message:
+                response = f'You\'ve insulted me! And that is not nice at all.. You should be ashamed of yourself.'
+                self.send_text(msg['chat']['id'], response)
+            elif 'supercalifragilisticexpialodocious' in message:
+                response = f'https://boulderbugle.com/super-secret-easter-egg-39tz7pni'
+                self.send_text(msg['chat']['id'], response)
+            else:
+                response = (f'What you\'ve typed (\"{msg["text"]}\") is not a recognisable command.\n\nTry typing '
+                            f'\"/help\"')
+                self.send_text(msg['chat']['id'], response)
+            # super().handle_message(msg)  # Call the parent class method to handle text messages
 
     def process_image_segment(self, msg):
         self.processing_completed = False
+        self.send_text(msg['chat']['id'], text=f'Processing...')
 
         # Download the two photos sent by the user
         image_path = self.download_user_photo(msg)
@@ -121,8 +158,10 @@ class ImageProcessingBot(Bot):
             self.send_photo(msg['chat']['id'], processed_image_path)
 
         self.processing_completed = True
+
     def process_image_blur(self, msg):
         self.processing_completed = False
+        self.send_text(msg['chat']['id'], text=f'Processing...')
 
         # Download the two photos sent by the user
         image_path = self.download_user_photo(msg)
@@ -144,6 +183,7 @@ class ImageProcessingBot(Bot):
 
     def process_image_contur(self, msg):
         self.processing_completed = False
+        self.send_text(msg['chat']['id'], text=f'Processing...')
 
         # Download the two photos sent by the user
         image_path = self.download_user_photo(msg)
@@ -165,6 +205,7 @@ class ImageProcessingBot(Bot):
 
     def process_image_salt_n_pepper(self, msg):
         self.processing_completed = False
+        self.send_text(msg['chat']['id'], text=f'Processing...')
 
         # Download the two photos sent by the user
         image_path = self.download_user_photo(msg)
