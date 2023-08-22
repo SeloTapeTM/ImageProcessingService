@@ -90,16 +90,16 @@ class ImageProcessingBot(Bot):
             # If the message contains a photo, check if it also has a caption
             if "caption" in msg:
                 caption = msg["caption"]
-                if "blur" in caption.lower():
+                if "blur" in caption.lower() or "טשטוש" in caption.lower():
                     logger.info("Received photo with blur caption.")
                     self.process_image_blur(msg)
-                elif "contour" in caption.lower():
+                elif "contour" in caption.lower() or "קווי מתאר" in caption.lower():
                     logger.info("Received photo with contour caption.")
                     self.process_image_contur(msg)
-                elif "salt n pepper" in caption.lower() or "salt and pepper" in caption.lower():
+                elif "salt n pepper" in caption.lower() or "salt and pepper" in caption.lower() or "מלח פלפל" in caption.lower():
                     logger.info("Received photo with salt n pepper caption.")
                     self.process_image_salt_n_pepper(msg)
-                elif "segment" in caption.lower():
+                elif "segment" in caption.lower() or "חלוקה" in caption.lower():
                     logger.info("Received photo with segment caption.")
                     self.process_image_segment(msg)
                 else:

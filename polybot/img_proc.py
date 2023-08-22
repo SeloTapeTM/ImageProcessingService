@@ -56,7 +56,6 @@ class Img:
         raise NotImplementedError()
 
     def salt_n_pepper(self):
-        # TODO remove the `raise` below, and write your implementation
         for row_num, row_data in enumerate(self.data):
             res = []
             for i in range(0, len(row_data)):
@@ -74,7 +73,6 @@ class Img:
         raise NotImplementedError()
 
     def segment(self):
-        # TODO remove the `raise` below, and write your implementation
         for row_num, row_data in enumerate(self.data):
             res = []
             for i in range(0, len(row_data)):
@@ -89,5 +87,6 @@ class Img:
 
 if __name__ == "__main__":
     my_img = Img('/home/setatm/GitExc/ImageProcessingService/polybot/test/beatles.jpeg')
-    my_img.salt_n_pepper()
+    # my_img.salt_n_pepper()
+    my_img.segment()
     my_img.save_img()
